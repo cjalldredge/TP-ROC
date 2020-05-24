@@ -1,0 +1,91 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Projects\\TouchPortal\\RemoteOBSController\\ROCSolution\\ROCServer\\ROCServer.csproj": {}
+  },
+  "projects": {
+    "D:\\Projects\\TouchPortal\\RemoteOBSController\\ROCSolution\\ROCServer\\ROCServer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Projects\\TouchPortal\\RemoteOBSController\\ROCSolution\\ROCServer\\ROCServer.csproj",
+        "projectName": "ROCServer",
+        "projectPath": "D:\\Projects\\TouchPortal\\RemoteOBSController\\ROCSolution\\ROCServer\\ROCServer.csproj",
+        "packagesPath": "C:\\Users\\Cameron\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\TouchPortal\\RemoteOBSController\\ROCSolution\\ROCServer\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Cameron\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\Projects\\VisualStudio\\RemoteOBSControllerSolution\\obs-websocket-dotnet\\obs-websocket-dotnet.csproj": {
+                "projectPath": "D:\\Projects\\VisualStudio\\RemoteOBSControllerSolution\\obs-websocket-dotnet\\obs-websocket-dotnet.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "System.Security.Permissions": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.2, 3.1.2]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Projects\\VisualStudio\\RemoteOBSControllerSolution\\obs-websocket-dotnet\\obs-websocket-dotnet.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\Projects\\VisualStudio\\RemoteOBSControllerSolution\\obs-websocket-dotnet\\obs-websocket-dotnet.csproj",
+        "projectName": "obs-websocket-dotnet",
+        "projectPath": "D:\\Projects\\VisualStudio\\RemoteOBSControllerSolution\\obs-websocket-dotnet\\obs-websocket-dotnet.csproj"
+      },
+      "frameworks": {
+        "net40": {}
+      }
+    }
+  }
+}
