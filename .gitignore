@@ -1,0 +1,14 @@
+/ROCClient/bin/Debug/
+/ROCClient/bin/Release/
+/ROCClient/obj/x86/Debug/
+/ROCClient/obj/x86/Release/
+/ROCServer/bin/Debug/
+/ROCServer/bin/Release/
+/ROCServer/obj/Debug/
+/ROCServer/obj/Release/
+/obs-websocket-dotnet/bin/Debug/
+/obs-websocket-dotnet/bin/Release/
+/obs-websocket-dotnet/obj/Debug/
+/obs-websocket-dotnet/obj/Debug/
+/.vs/
+/packages/
