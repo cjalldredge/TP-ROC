@@ -1,0 +1,11 @@
+D:\Projects\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\bin\Release\obs-websocket-dotnet.xml
+D:\Projects\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\bin\Release\obs-websocket-dotnet.dll
+D:\Projects\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\bin\Release\obs-websocket-dotnet.pdb
+D:\Projects\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\bin\Release\Newtonsoft.Json.dll
+D:\Projects\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\bin\Release\websocket-sharp.dll
+D:\Projects\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\bin\Release\websocket-sharp.xml
+D:\Projects\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\obj\Release\obs-websocket-dotnet.csprojAssemblyReference.cache
+D:\Projects\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\obj\Release\obs-websocket-dotnet.csproj.CoreCompileInputs.cache
+D:\Projects\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\obj\Release\obs-websocket-dotnet.csproj.CopyComplete
+D:\Projects\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\obj\Release\obs-websocket-dotnet.dll
+D:\Projects\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\obj\Release\obs-websocket-dotnet.pdb

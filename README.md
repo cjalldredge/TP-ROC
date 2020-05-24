@@ -1,0 +1,1 @@
+TP-ROC (Touch Portal Remote OBS Controller) is a client side plugin and server side service which acts as a relay between the Touch Portal client hosted on one machine and any number of instances of OBS running on the same subnet.
