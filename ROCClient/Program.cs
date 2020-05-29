@@ -13,7 +13,7 @@ namespace ROCClient
         static ROCServComm rocServ;
 
         public static bool isRunning = true;
-        public static bool debug = true;
+        public static bool debug = false;
 
         public static List<string> connections = new List<string>(); // List of ROC endpoints that responded
         public static List<ROCServer> rocServs = new List<ROCServer>(); // List of ROC Servers to communicate to

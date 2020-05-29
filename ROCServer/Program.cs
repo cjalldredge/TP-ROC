@@ -48,8 +48,15 @@ namespace ROCServer
             {
                 while (!connected)
                 {
-                    ows.Connect(String.Format("ws://{0}:{1}", wsAddr, wsPort), wsPw);
-                    connected = ows.IsConnected;
+                    try
+                    {
+                        ows.Connect(String.Format("ws://{0}:{1}", wsAddr, wsPort), wsPw);
+                        connected = ows.IsConnected;
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.WriteLine(String.Format("Error while connecting to OBS websocket {0}", ex.ToString()));
+                    }
 
                     if (!connected)
                     {

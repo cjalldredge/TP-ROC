@@ -88,28 +88,28 @@ namespace ROCClient
                     string request = "1300:" + actionValue;
                     logger.Write("Received request for Stream Start from TouchPortal.");
                     logger.Write(String.Format("Sending {0}", request));
-                    rocComm.Send(request);
+                    rocComm.StartStream(request);
                 }
                 else if (actionId == "roc_0004") //Stop OBS Streaming
                 {
                     string request = "1400:" + actionValue;
                     logger.Write("Received request for Stream Stop from TouchPortal.");
                     logger.Write(String.Format("Sending {0}", request));
-                    rocComm.Send(request);
+                    rocComm.StopStream(request);
                 }
                 else if (actionId == "roc_0005") //Start OBS Recording
                 {
                     string request = "1500:" + actionValue;
                     logger.Write("Received request for Record Start from TouchPortal.");
                     logger.Write(String.Format("Sending {0}", request));
-                    rocComm.Send(request);
+                    rocComm.StartRecording(request);
                 }
                 else if (actionId == "roc_0006") //Stop OBS Recording
                 {
                     string request = "1600:" + actionValue;
                     logger.Write("Received request for Record Stop from TouchPortal.");
                     logger.Write(String.Format("Sending {0}", request));
-                    rocComm.Send(request);
+                    rocComm.StopRecording(request);
                 } 
                 else if (listId == "roc_1111" && listChange.actionId == "roc_scene_selector") // ROC Server selection changed
                 {

@@ -79,7 +79,7 @@ namespace ROCClient
         /// <param name="request">Request to send to ROC server</param>
         public void ChangeScene(string request)
         {
-            logger.Write("Recieved request for scene change from TouchPortal.");
+            logger.Write("Received request for scene change from TouchPortal.");
             string response = comm.Send(request);
             logger.Write(response);
         }
@@ -90,17 +90,53 @@ namespace ROCClient
         /// <param name="request">Request to send to ROC server</param>
         public void ChangeTransition(string request)
         {
-            logger.Write("Recieved request for transition change from TouchPortal.");
+            logger.Write("Received request for transition change from TouchPortal.");
             string response = comm.Send(request);
             logger.Write(response);
         }
 
         /// <summary>
-        /// Blank method to resolve errors for troubleshooting
+        /// Sends a request to ROC server to begin streaming
         /// </summary>
-        public void Send(string placeHolder)
+        /// <param name="request">Request to send to ROC server</param>
+        public void StartStream(string request)
         {
+            logger.Write("Received request for stream start from TouchPortal");
+            string response = comm.Send(request);
+            logger.Write(response);
+        }
 
+        /// <summary>
+        /// Sends a request to ROC server to stop streaming
+        /// </summary>
+        /// <param name="request">Request to send to ROC server</param>
+        public void StopStream(string request)
+        {
+            logger.Write("Received request for stream stop from TouchPortal");
+            string response = comm.Send(request);
+            logger.Write(response);
+        }
+
+        /// <summary>
+        /// Sends a request to ROC server to start recording
+        /// </summary>
+        /// <param name="request">Request to send to ROC server</param>
+        public void StartRecording(string request)
+        {
+            logger.Write("Received request for recording start from TouchPortal");
+            string response = comm.Send(request);
+            logger.Write(response);
+        }
+
+        /// <summary>
+        /// Sends a request to ROC server to stop recording
+        /// </summary>
+        /// <param name="request">Request to send to ROC server</param>
+        public void StopRecording(string request)
+        {
+            logger.Write("Received request for recording stop from TouchPortal");
+            string response = comm.Send(request);
+            logger.Write(response);
         }
         #endregion
     }

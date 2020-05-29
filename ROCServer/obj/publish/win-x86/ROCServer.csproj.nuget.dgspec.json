@@ -11,7 +11,7 @@
         "projectName": "ROCServer",
         "projectPath": "D:\\Projects\\TouchPortal\\RemoteOBSController\\ROCSolution\\ROCServer\\ROCServer.csproj",
         "packagesPath": "C:\\Users\\Cameron\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\TouchPortal\\RemoteOBSController\\ROCSolution\\ROCServer\\obj\\",
+        "outputPath": "D:\\Projects\\TouchPortal\\RemoteOBSController\\ROCSolution\\ROCServer\\obj\\publish\\win-x86\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -54,6 +54,10 @@
             "System.Security.Permissions": {
               "target": "Package",
               "version": "[4.7.0, )"
+            },
+            "WebSocketSharp-netstandard": {
+              "target": "Package",
+              "version": "[1.0.1, )"
             }
           },
           "imports": [
@@ -70,6 +74,18 @@
             {
               "name": "Microsoft.AspNetCore.App.Ref",
               "version": "[3.1.2, 3.1.2]"
+            },
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x86",
+              "version": "[3.1.4, 3.1.4]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.win-x86",
+              "version": "[3.1.4, 3.1.4]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x86",
+              "version": "[3.1.4, 3.1.4]"
             }
           ],
           "frameworkReferences": {
@@ -79,13 +95,35 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
         }
+      },
+      "runtimes": {
+        "win-x86": {
+          "#import": []
+        }
       }
     },
     "D:\\Projects\\VisualStudio\\RemoteOBSControllerSolution\\obs-websocket-dotnet\\obs-websocket-dotnet.csproj": {
       "restore": {
         "projectUniqueName": "D:\\Projects\\VisualStudio\\RemoteOBSControllerSolution\\obs-websocket-dotnet\\obs-websocket-dotnet.csproj",
         "projectName": "obs-websocket-dotnet",
-        "projectPath": "D:\\Projects\\VisualStudio\\RemoteOBSControllerSolution\\obs-websocket-dotnet\\obs-websocket-dotnet.csproj"
+        "projectPath": "D:\\Projects\\VisualStudio\\RemoteOBSControllerSolution\\obs-websocket-dotnet\\obs-websocket-dotnet.csproj",
+        "packagesPath": "C:\\Users\\Cameron\\.nuget\\packages\\",
+        "projectStyle": "PackagesConfig",
+        "configFilePaths": [
+          "C:\\Users\\Cameron\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net40": {
+            "projectReferences": {}
+          }
+        },
+        "packagesConfigPath": "D:\\Projects\\VisualStudio\\RemoteOBSControllerSolution\\obs-websocket-dotnet\\packages.config"
       },
       "frameworks": {
         "net40": {}

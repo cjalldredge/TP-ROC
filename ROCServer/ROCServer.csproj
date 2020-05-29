@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Authors>MrTacoJazz</Authors>
     <Description>This is a server intended to receive TCP communications from a ROCClient communicating with TouchPortal on a remote machine.</Description>
@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Security.Permissions" Version="4.7.0" />
   </ItemGroup>
 
