@@ -1,11 +1,13 @@
-﻿using OBSWebsocketDotNet;
+﻿//using Newtonsoft.Json;
+using OBSWebsocketDotNet;
 using OBSWebsocketDotNet.Types;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Reflection;
-using System.Reflection.Metadata;
+//using System.Reflection.Metadata;
 using System.Text.Json;
 
 namespace ROCServer
@@ -22,8 +24,8 @@ namespace ROCServer
         public string ReadMessage(string message)
         {
             string returnString = "";
-            string messageCode = message.Split(":")[0];
-            string messageValue = message.Split(":")[1];
+            string messageCode = message.Split(':')[0];
+            string messageValue = message.Split(':')[1];
 
             if (messageCode.Equals("1000")) //Request for connection
             {
@@ -31,7 +33,7 @@ namespace ROCServer
             }
             else if (messageCode.Equals("1100")) //Request for Scene change
             {
-                obsSocket.SetCurrentScene(messageValue);
+                obsSocket.SetCurrentScene(messageValue);       
                 returnString = "2100:SceneChangeAck";
             }
             else if (messageCode.Equals("1200")) //Request for Transistion change

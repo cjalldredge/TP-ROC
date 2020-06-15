@@ -2,7 +2,9 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Policy;
 using System.Text;
+using System.Threading;
 
 namespace ROCServer
 {
@@ -11,28 +13,34 @@ namespace ROCServer
         MsgHandler msgHandler;
         Logger logger;
         TcpClient client;
+        TcpListener server;
+        OBSWebsocket ows;
 
         string ipAddr;
         int port;
         int rcDelay;
+        bool isRunning;
 
         /// <summary>
         /// Basic constructor
         /// </summary>
-        public Communicator(OBSWebsocket ows, Logger _logger, string _ipAddr, int _port, int _rcDelay)
+        public Communicator(OBSWebsocket _ows, Logger _logger, string _ipAddr, int _port, int _rcDelay)
         {
-            msgHandler = new MsgHandler(ows);
+            msgHandler = new MsgHandler(_ows);
             logger = _logger;
+            ows = _ows;
 
             ipAddr = _ipAddr;
             port = _port;
 
             rcDelay = _rcDelay;
+
+            isRunning = true;
         }
 
         public void Start()
         {
-            TcpListener server = null;
+            server = null;
             try
             {
                 //Create connection information for TcpListener
@@ -50,7 +58,7 @@ namespace ROCServer
                 string data = null;
 
                 //Enter listening loop
-                while (true)
+                while (isRunning)
                 {
                     logger.WriteLine("Waiting for a client connection...");
 
@@ -70,8 +78,25 @@ namespace ROCServer
                         data = Encoding.ASCII.GetString(bytes, 0, i);
                         logger.WriteLine(String.Format("Received: {0}", data));
 
-                        //For now this will return the string received as uppercase letters
-                        //Eventually we will run through a proper message handler
+                        while (!ows.IsConnected)
+                        {
+                            ows.Disconnect();
+                            try
+                            {
+                                ows.Connect(String.Format("ws://{0}:{1}", Program.ipAddr, Program.port), Program.wsPw);
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.WriteLine("Failed to connect to local OBS instance.");
+                                logger.WriteLine(ex.ToString());
+                            }
+                            if (!ows.IsConnected)
+                            {
+                                logger.WriteLine(String.Format("Waiting {0} ms before attempting reconnect", rcDelay.ToString()));
+                                Thread.Sleep(rcDelay);
+                            }
+                        }
+
                         try
                         {
                             data = msgHandler.ReadMessage(data);
@@ -96,6 +121,16 @@ namespace ROCServer
             }
 
             logger.WriteLine("Listener finished.");
+        }
+
+        /// <summary>
+        /// Close up any communications 
+        /// </summary>
+        public void Close()
+        {
+            isRunning = false;
+            server.Stop();
+            client.Close();
         }
     }
 }

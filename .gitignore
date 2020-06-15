@@ -13,3 +13,4 @@
 /.vs/
 /packages/
 /obs-websocket-dotnet/obj/Release/
+/ROCServiceInstaller

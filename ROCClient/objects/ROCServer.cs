@@ -8,7 +8,8 @@ namespace ROCClient
     {
         #region Vars and Containers
         public string ipAddress;    // IP Address of ROC server connected to OBS
-        public int port;         // Port that ROC server is listening on
+        public int port;            // Port that ROC server is listening on
+        public bool isConnected;    // Connection status of this endpoint
 
         public List<string> scenes;         // Scenes available in OBS where ROC is connected
         public List<string> transitions;    // Transitions available in OBS where ROC is connected
@@ -46,6 +47,7 @@ namespace ROCClient
         public bool Connect()
         {
             comm.ConnectRequest();
+            isConnected = comm.isConnected;
             return comm.isConnected;
         }
 

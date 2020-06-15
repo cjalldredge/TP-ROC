@@ -1,43 +1,104 @@
 ﻿using OBSWebsocketDotNet;
 using ROCServer.common;
 using System;
+using System.ComponentModel;
+using System.ServiceProcess;
 using System.Threading;
 
 namespace ROCServer
 {
     class Program
     {
+        public static string ipAddr;
+        public static int port;
+        public static string wsPw;
+        public static int rcDelay;
+        public static string wsAddr;
+        public static string wsPort;
+
+        static OBSWebsocket ows;
+        static Communicator comm;
+        static Logger logger;
+        static BackgroundWorker worker;
+        static ROCService rocService;
+
+
+
         static void Main(string[] args)
         {
-            Logger logger = new Logger();
+            worker = new BackgroundWorker();
+            worker.WorkerSupportsCancellation = true;
+            worker.DoWork += Worker_DoWork;
+            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+#if DEBUG
+            Start();
+#else
+            rocService = new ROCService();
+            ServiceBase.Run(rocService);
+#endif
+        }
+
+        public static void Start()
+        {
+            // onstart code here
+            logger = new Logger();
 
             //Inform user the server is starting
             logger.WriteLine("******Starting ROC Server******");
 
             //Get ipAddress and port from config file
             Config config = new Config(logger);
-            string ipAddr = config.GetAddr();
-            int port = config.GetPort();
-            int rcDelay = config.GetRcDelay();
-            string wsAddr = config.GetOwsAddr();
-            string wsPort = config.GetOwsPort();
-            string wsPw = config.GetOwsPw();
+            ipAddr = config.GetAddr();
+            port = config.GetPort();
+            rcDelay = config.GetRcDelay();
+            wsAddr = config.GetOwsAddr();
+            wsPort = config.GetOwsPort();
+            wsPw = config.GetOwsPw();
 
-            //Initialize OBSWebSocket Connection
-            OBSWebsocket ows = new OBSWebsocket();
-            obsConnect(ows, wsAddr, wsPort, wsPw, rcDelay, logger);
+            worker.RunWorkerAsync();
+#if DEBUG
+            while (worker.IsBusy)
+            {
+                //logger.WriteLine("Worker is busy.");
+                Thread.Sleep(1000);
+            }
+#endif
+        }
 
-            //Initialize and start comms
-            Communicator comm = new Communicator(ows, logger, ipAddr, port, rcDelay);
-            comm.Start();
-
-            // Add a flag to determine if the application is closing.
-            // Once done, we will uncomment out this code to finalize closing the app.
-            //if(ows.IsConnected)
-            //    ows.Disconnect();
+        public static void Stop()
+        {
+            worker.CancelAsync();
+            Thread.Sleep(1000);
             
             //Inform the user the server is closing
             logger.WriteLine("******Closing ROC Server******");
+        }
+
+        private static void Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            logger.WriteLine("Background worker started...");
+            try
+            {
+                ows = new OBSWebsocket();
+                comm = new Communicator(ows, logger, ipAddr, port, rcDelay);
+
+                //Initialize OBSWebSocket Connection
+                logger.WriteLine("Starting communications to local OBS instance.");
+                obsConnect(ows, wsAddr, wsPort, wsPw, rcDelay, logger);
+
+                //Initialize and start comms
+                logger.WriteLine("Opening TCP communications for clients.");
+                comm.Start();
+            }
+            catch
+            {
+                logger.WriteLine("Background worker started but ran in to an issue.");
+            }
+        }
+
+        private static void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            logger.WriteLine("Background worker completed...");
         }
 
         static void obsConnect(OBSWebsocket ows, string wsAddr, string wsPort, string wsPw, int rcDelay, Logger logger)

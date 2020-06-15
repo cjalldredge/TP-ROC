@@ -2,20 +2,28 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <Authors>MrTacoJazz</Authors>
     <Description>This is a server intended to receive TCP communications from a ROCClient communicating with TouchPortal on a remote machine.</Description>
     <FileVersion>0.0.0.1</FileVersion>
     <AssemblyVersion>0.0.0.1</AssemblyVersion>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>Remote OBS Controller Server</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
     <PackageReference Include="System.Security.Permissions" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\VisualStudio\RemoteOBSControllerSolution\obs-websocket-dotnet\obs-websocket-dotnet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Configuration.Install" />
   </ItemGroup>
 
 </Project>

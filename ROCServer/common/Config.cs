@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Xml;
 
@@ -7,7 +8,9 @@ namespace ROCServer.common
 {
     class Config
     {
-        string configPath = Environment.CurrentDirectory + "\\config.xml";
+        //string configPath = Environment.CurrentDirectory + "\\config.xml";
+        string configPath = AppDomain.CurrentDomain.BaseDirectory + "\\config.xml";
+        bool configFound = false;
 
         Logger logger;
         XmlDocument doc;
@@ -15,34 +18,46 @@ namespace ROCServer.common
         public Config(Logger _logger)
         {
             logger = _logger;
-            try
-            {
-                doc = new XmlDocument();
-                doc.Load(configPath);
 
-                logger.WriteLine("Config file loaded.");
-            }
-            catch
-            {
-                logger.WriteLine("Unable to find the config file.");
-            }
+            configFound = File.Exists(configPath);
 
+            if (configFound)
+            {
+                try
+                {
+                    doc = new XmlDocument();
+                    doc.Load(configPath);
+
+                    logger.WriteLine("Config file loaded.");
+                }
+                catch
+                {
+                    logger.WriteLine("Unable to find the config file.");
+                }
+            }
+            else
+            {
+                logger.WriteLine("Config not found. Applying default values.");
+            }
         }
 
         public string GetAddr()
         {
             string ipAddr = "0.0.0.0"; //Default ipaddress
 
-            try
+            if (configFound)
             {
-                XmlNode node = doc.DocumentElement.SelectSingleNode("ipAddress");
-                ipAddr = node.Attributes["value"].Value;
+                try
+                {
+                    XmlNode node = doc.DocumentElement.SelectSingleNode("ipAddress");
+                    ipAddr = node.Attributes["value"].Value;
 
-                logger.WriteLine(String.Format("Applying {0} as the OBS IPAddress.", ipAddr));
-            }
-            catch
-            {
-                logger.WriteLine(String.Format("Applying default value {0} as OBS IPAddress", ipAddr));
+                    logger.WriteLine(String.Format("Applying {0} as the OBS IPAddress.", ipAddr));
+                }
+                catch
+                {
+                    logger.WriteLine(String.Format("Applying default value {0} as OBS IPAddress", ipAddr));
+                }
             }
 
             return ipAddr;
@@ -52,16 +67,19 @@ namespace ROCServer.common
         {
             int port = 6567;
 
-            try
+            if (configFound)
             {
-                XmlNode node = doc.DocumentElement.SelectSingleNode("port");
-                port = Convert.ToInt32(node.Attributes["value"].Value);
+                try
+                {
+                    XmlNode node = doc.DocumentElement.SelectSingleNode("port");
+                    port = Convert.ToInt32(node.Attributes["value"].Value);
 
-                logger.WriteLine(String.Format("Applying {0} as the OBS Port", port));
-            }
-            catch
-            {
-                logger.WriteLine(String.Format("Applying default of {0} as OBS Port", port));
+                    logger.WriteLine(String.Format("Applying {0} as the OBS Port", port));
+                }
+                catch
+                {
+                    logger.WriteLine(String.Format("Applying default of {0} as OBS Port", port));
+                }
             }
             
             return port;
@@ -71,16 +89,19 @@ namespace ROCServer.common
         {
             int rcDelay = 1000;
 
-            try
+            if (configFound)
             {
-                XmlNode node = doc.DocumentElement.SelectSingleNode("rcDelay");
-                rcDelay = Convert.ToInt32(node.Attributes["value"].Value);
+                try
+                {
+                    XmlNode node = doc.DocumentElement.SelectSingleNode("rcDelay");
+                    rcDelay = Convert.ToInt32(node.Attributes["value"].Value);
 
-                logger.WriteLine(String.Format("Applying {0} as OBS reconnect delay.", rcDelay));
-            }
-            catch
-            {
-                logger.WriteLine(String.Format("Applying default of {0} as OBS reconnect delay.", rcDelay));
+                    logger.WriteLine(String.Format("Applying {0} as OBS reconnect delay.", rcDelay));
+                }
+                catch
+                {
+                    logger.WriteLine(String.Format("Applying default of {0} as OBS reconnect delay.", rcDelay));
+                }
             }
 
             return rcDelay;
@@ -90,14 +111,17 @@ namespace ROCServer.common
         {
             string owsAddr = "0.0.0.0";
 
-            try
+            if(configFound)
             {
-                owsAddr = GetAttrStringValue("obsWsAddress");
-                logger.WriteLine("Setting OBS WebSocket address to " + owsAddr);
-            }
-            catch
-            {
-                logger.WriteLine("Defaulting OBS WebSocket address to " + owsAddr);
+                try
+                {
+                    owsAddr = GetAttrStringValue("obsWsAddress");
+                    logger.WriteLine("Setting OBS WebSocket address to " + owsAddr);
+                }
+                catch
+                {
+                    logger.WriteLine("Defaulting OBS WebSocket address to " + owsAddr);
+                }
             }
 
             return owsAddr;
@@ -107,14 +131,17 @@ namespace ROCServer.common
         {
             string owsPort = "4444";
 
-            try
+            if(configFound)
             {
-                owsPort = GetAttrStringValue("obsWsPort");
-                logger.WriteLine("Setting OBS WebSocket port to " + owsPort);
-            }
-            catch
-            {
-                logger.WriteLine("Defaulting OBS WebSocket port to " + owsPort);
+                try
+                {
+                    owsPort = GetAttrStringValue("obsWsPort");
+                    logger.WriteLine("Setting OBS WebSocket port to " + owsPort);
+                }
+                catch
+                {
+                    logger.WriteLine("Defaulting OBS WebSocket port to " + owsPort);
+                }
             }
 
             return owsPort;
@@ -124,14 +151,17 @@ namespace ROCServer.common
         {
             string owsPw = "";
 
-            try
+            if (configFound)
             {
-                owsPw = GetAttrStringValue("obsWsPort");
-                logger.WriteLine("Setting OBS WebSocket password to configured value.");
-            }
-            catch
-            {
-                logger.WriteLine("Defaulting OBS WebSocket password.");
+                try
+                {
+                    owsPw = GetAttrStringValue("obsWsPort");
+                    logger.WriteLine("Setting OBS WebSocket password to configured value.");
+                }
+                catch
+                {
+                    logger.WriteLine("Defaulting OBS WebSocket password.");
+                }
             }
 
             return owsPw;
@@ -139,8 +169,15 @@ namespace ROCServer.common
 
         private string GetAttrStringValue(string nodeName)
         {
-            XmlNode node = doc.DocumentElement.SelectSingleNode(nodeName);
-            return node.Attributes["value"].Value;
+            try
+            {
+                XmlNode node = doc.DocumentElement.SelectSingleNode(nodeName);
+                return node.Attributes["value"].Value;
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
     }
 }

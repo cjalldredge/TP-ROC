@@ -6,8 +6,13 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ROCClient", "ROCClient\ROCClient.csproj", "{2D287346-D013-4859-B286-F2AE3842FCE2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ROCServer", "ROCServer\ROCServer.csproj", "{A5A6B9AE-7B45-476E-9DAD-95354AE501AF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C8668815-F21E-49C0-8F1A-58BC698153AF} = {C8668815-F21E-49C0-8F1A-58BC698153AF}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "obs-websocket-dotnet", "obs-websocket-dotnet\obs-websocket-dotnet.csproj", "{C8668815-F21E-49C0-8F1A-58BC698153AF}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ROCServiceInstaller", "ROCServiceInstaller\ROCServiceInstaller.vdproj", "{1A295E55-197A-4F41-83CC-32AD3EAC926E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +44,10 @@ Global
 		{C8668815-F21E-49C0-8F1A-58BC698153AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C8668815-F21E-49C0-8F1A-58BC698153AF}.Release|x86.ActiveCfg = Release|Any CPU
 		{C8668815-F21E-49C0-8F1A-58BC698153AF}.Release|x86.Build.0 = Release|Any CPU
+		{1A295E55-197A-4F41-83CC-32AD3EAC926E}.Debug|Any CPU.ActiveCfg = Debug
+		{1A295E55-197A-4F41-83CC-32AD3EAC926E}.Debug|x86.ActiveCfg = Debug
+		{1A295E55-197A-4F41-83CC-32AD3EAC926E}.Release|Any CPU.ActiveCfg = Release
+		{1A295E55-197A-4F41-83CC-32AD3EAC926E}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

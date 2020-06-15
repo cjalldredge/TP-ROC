@@ -26,6 +26,7 @@ namespace ROCClient
             string actionValue = "";    // Command parameter
             string listId = "";
             string listValue = "";
+            string request = "";
 
             TPAction action = new TPAction();
             ListChange listChange = new ListChange();
@@ -35,7 +36,7 @@ namespace ROCClient
                 if (message.Contains("\"type\":\"listChange\""))
                 {
                     listChange = JsonConvert.DeserializeObject<ListChange>(message);
-                    listId = listChange.listId;
+                    actionId = listChange.listId;
                     listValue = listChange.value;
 
                     //logger.Write(message);
@@ -66,68 +67,70 @@ namespace ROCClient
                     if (rocServ.ipAddress == destinationIP)
                         rocComm = rocServ;
 
-
-
-                //actionId = action.data[0]["id"];
-                //actionValue = action.data[0]["value"];
-
-                if (actionId == "roc_0001") //Set the current scene in Remote OBS
+                switch (actionId)
                 {
-                    string request = "1100:" + actionValue;
-                    rocComm.ChangeScene(request);
-                }
-                else if (actionId == "roc_0002") //Set the current transition in Remote OBS
-                {
-                    string request = "1200:" + actionValue;
-                    logger.Write("Received request for transition change from TouchPortal.");
-                    logger.Write(String.Format("Sending {0}", request));
-                    rocComm.ChangeTransition(request);
-                }
-                else if (actionId == "roc_0003") //Start OBS streaming
-                {
-                    string request = "1300:" + actionValue;
-                    logger.Write("Received request for Stream Start from TouchPortal.");
-                    logger.Write(String.Format("Sending {0}", request));
-                    rocComm.StartStream(request);
-                }
-                else if (actionId == "roc_0004") //Stop OBS Streaming
-                {
-                    string request = "1400:" + actionValue;
-                    logger.Write("Received request for Stream Stop from TouchPortal.");
-                    logger.Write(String.Format("Sending {0}", request));
-                    rocComm.StopStream(request);
-                }
-                else if (actionId == "roc_0005") //Start OBS Recording
-                {
-                    string request = "1500:" + actionValue;
-                    logger.Write("Received request for Record Start from TouchPortal.");
-                    logger.Write(String.Format("Sending {0}", request));
-                    rocComm.StartRecording(request);
-                }
-                else if (actionId == "roc_0006") //Stop OBS Recording
-                {
-                    string request = "1600:" + actionValue;
-                    logger.Write("Received request for Record Stop from TouchPortal.");
-                    logger.Write(String.Format("Sending {0}", request));
-                    rocComm.StopRecording(request);
-                } 
-                else if (listId == "roc_1111" && listChange.actionId == "roc_scene_selector") // ROC Server selection changed
-                {
-                    foreach(ROCServer server in rocComms) // Loop through all our ROC Servers
-                        if(server.ipAddress == listValue) // Find the server the user selected
-                            Program.tpComm.UpdateScenesList(server.GetScenes()); // Update scenes list with that servers scenes
-                }
-                else if (listId == "roc_1111" && listChange.actionId == "roc_trans_setter")
-                {
-                    foreach (ROCServer server in rocComms)  // Loop through all our ROC Servers
-                        if (server.ipAddress == listValue)  // Find the server the user selected
-                            Program.tpComm.UpdateTransitionsList(server.GetTransitions());
-                }
-                else
-                {
-                    logger.Write(String.Format("Unknown message {0}:{1} from TouchPortal detected.", actionId, actionValue));
-                    //logger.Write(message);
-                    logger.Write("Disposing message...");
+                    case "roc_0000": // Request from TP to discover new devices
+                        foreach (ROCServer rocServer in Program.rocServs)
+                        {
+                            ThreadPool.QueueUserWorkItem((i) =>
+                            {
+                                if (!rocServer.isConnected && rocServer.Connect())
+                                    Program.connections.Add(rocServer.ipAddress);
+                            });
+                        }
+                        Program.tpComm.UpdateServerList(Program.connections);
+                        break;
+                    case "roc_0001": // Set the current scene in Remote OBS
+                        request = "1100:" + actionValue;
+                        rocComm.ChangeScene(request);
+                        break;
+                    case "roc_0002": // Set the current transition in Remote OBS
+                        request = "1200:" + actionValue;
+                        logger.Write("Received request for transition change from TouchPortal.");
+                        logger.Write(String.Format("Sending {0}", request));
+                        rocComm.ChangeTransition(request);
+                        break;
+                    case "roc_0003": // Start OBS streaming
+                        request = "1300:" + actionValue;
+                        logger.Write("Received request for Stream Start from TouchPortal.");
+                        logger.Write(String.Format("Sending {0}", request));
+                        rocComm.StartStream(request);
+                        break;
+                    case "roc_0004": // Stop OBS streaming
+                        request = "1400:" + actionValue;
+                        logger.Write("Received request for Stream Stop from TouchPortal.");
+                        logger.Write(String.Format("Sending {0}", request));
+                        rocComm.StopStream(request);
+                        break;
+                    case "roc_0005": // Start OBS recording
+                        request = "1500:" + actionValue;
+                        logger.Write("Received request for Record Start from TouchPortal.");
+                        logger.Write(String.Format("Sending {0}", request));
+                        rocComm.StartRecording(request);
+                        break;
+                    case "roc_0006": // Stop OBS recording
+                        request = "1600:" + actionValue;
+                        logger.Write("Received request for Record Stop from TouchPortal.");
+                        logger.Write(String.Format("Sending {0}", request));
+                        rocComm.StopRecording(request);
+                        break;
+                    case "roc_1111": // ROC Server selection changed
+                        if (listChange.actionId == "roc_scene_selector")
+                        {
+                            foreach (ROCServer server in rocComms) // Loop through all our ROC Servers
+                                if (server.ipAddress == listValue) // Find the server the user selected
+                                    Program.tpComm.UpdateScenesList(server.GetScenes()); // Update scenes list with that servers scenes
+                        }
+                        else if (listChange.actionId == "roc_trans_setter")
+                        {
+                            foreach (ROCServer r_server in rocComms)  // Loop through all our ROC Servers
+                                if (r_server.ipAddress == listValue)  // Find the server the user selected
+                                    Program.tpComm.UpdateTransitionsList(r_server.GetTransitions());
+                        }
+                       break;
+                    default:
+                        logger.Write(String.Format("Unknown message {0}:{1} for TouchPortal detected.", actionId, actionValue));
+                        break;
                 }
             }
             catch(Exception ex)

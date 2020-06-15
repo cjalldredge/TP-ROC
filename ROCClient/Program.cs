@@ -67,19 +67,6 @@ namespace ROCClient
                         connections.Add(rocServer.ipAddress);
                 });
             }
-            //for (int i = 0; i < rocServs.Count - 1; i++)
-            //{
-            //    ThreadPool.QueueUserWorkItem((x) =>
-            //    {
-            //        if (rocServs[i].Connect())
-            //            connections.Add(rocServs[i].ipAddress);
-            //    });
-            //    Thread serverConnect = new Thread(() =>
-            //    {
-
-            //    });
-            //    serverConnect.Start();
-            //}
 
             Thread.Sleep(2000);
 
